@@ -1,7 +1,11 @@
 <script setup>
 const props = defineProps({
   link: String,
-  name: String
+  name: String,
+  icons: {
+    type: Boolean,
+    default: false
+  }
 });
 </script>
 
@@ -10,9 +14,9 @@ const props = defineProps({
   dans le cas d'un mail utiliser un lien avec mail.to
  -->
   {{console.log(link)}}
-  <a v-if="link !== undefined" :href="decodeURIComponent(link)" target="_blank" rel="noopener noreferrer">
-<!--    {{console.log(decodeURIComponent(link))}}-->
-    {{ props.name }}
+  <a v-if="link !== undefined" :href="decodeURIComponent(link)" target="_blank" rel="noopener noreferrer" :class="{'table__cols-icons__flex': icons}">
+    <v-icon v-if="icons" :name="name" class="icons" />
+    <template v-else>{{ name }}</template>
   </a>
 </template>
 
@@ -20,13 +24,15 @@ const props = defineProps({
   a {
     color: var(--primary);
     font-style: italic;
+    height: 100%;
+      text-align: left;
   }
   a:hover {
     color: var(--off-gray-dark);
-    //text-decoration: underline;
+    text-decoration: underline;
   }
   a:active {
     color: var(--off-black-dark);
-    //text-decoration: none;
+    text-decoration: none;
   }
 </style>

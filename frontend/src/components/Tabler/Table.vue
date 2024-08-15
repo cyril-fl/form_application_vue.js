@@ -45,48 +45,74 @@ function getReviewClass(review) {
 
 <template>
   <section class="section__table">
+
     <table>
-    <thead>
-    <tr class="table__title">
-      <th>Société</th>
-      <th>Adresse</th>
-      <th>Candidature</th>
-      <th>Complement</th>
-      <th>Commentaire</th>
-      <th>Note</th>
-      <th>Response</th>
-    </tr>
-    </thead>
-      <tbody>
-      <tr v-for="(data, index) in companies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
-        <th v-if="data.company_website !== '' "><Link :link="data.company_website" :name="data.company_name"/> </th>
-        <th v-else>{{ data.company_name }}</th>
-        <td>{{ data.company_location }}</td>
-        <td>{{ toCapitalize(data.application_type) }}</td>
-        <td><Link :link="data.application_type_optional" :name="`...`"/> </td>
-        <td>{{ data.review_comment }}</td>
-        <td>{{ data.review_status }}</td>
-        <td><Checkbox :state="data.company_has_responded" /></td>
+      <thead>
+      <tr class="table__title">
+        <th>Société</th>
+        <th>Adresse</th>
+        <th>Candidature</th>
+        <th>Complement</th>
+        <th>Commentaire</th>
+        <th>Note</th>
+        <th>Response</th>
       </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(data, index) in companies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
+          <th class="table__cols-title">
+            <template v-if="data.company_website !== '' ">
+              <Link :link="data.company_website" :name="data.company_name"/>
+            </template>
+            <template v-else>
+              {{ data.company_name }}
+            </template>
+          </th>
+
+          <td>{{ data.company_location }}</td>
+          <td>{{ toCapitalize(data.application_type) }}</td>
+
+          <td class="table__cols-icons__frame">
+            <Link :link="data.application_type_optional" name="hi-solid-link" :icons="true"/>
+          </td>
+
+          <td>{{ data.review_comment }}</td>
+
+          <td class="table__cols-icons__frame">
+            <div class="table__cols-icons__flex">
+              <v-icon
+                  v-for="index in Number(data.review_status)"
+                  :key="index"
+                  name="bi-star-fill"
+                  class="icons"
+              />
+              <v-icon
+                  v-for="index in 5 - Number(data.review_status)"
+                  :key="index"
+                  name="bi-star"
+                  class="icons"
+              />
+            </div>
+          </td>
+          <td><Checkbox :state="data.company_has_responded" /></td>
+        </tr>
       </tbody>
-  </table>
+    </table>
   </section>
 </template>
 
-<style scoped>
+<style>
 /* SECTION */
 .section__table {
   grid-column: 6 / span 13;
   grid-row: 1 / span 12;
-  height: fit-content;
   background: var(--off-white-light);
 }
-
 /* TABLE */
 table {
-  border-collapse: collapse;
-  font-size: 0.875rem;
+  border-collapse: collapse; /* Fusionne les bordures pour éviter les décalages */
   width: 100%;
+  font-size: 0.875rem;
 }
 
 /* TABLE HEADER */
@@ -96,27 +122,50 @@ table {
   text-transform: uppercase;
   font-weight: bold;
 }
-.table__title th {
+.table__title > * {
   padding: 0.75rem 1rem;
   text-align: left;
+
 }
 
 /* TABLE ROWS */
-.table__rows > * {
-  border-top: 1px solid var(--primary);
-}
-.table__rows td,
-.table__rows th {
-  padding: 0.75rem 1rem;
-  text-align: left;
-}
-.table__rows th {
-  color: var(--primary);
-  background: white;
-  border-right: 1px solid var(--primary);
+.table__rows {
+  background: #c1d967;
+  height: auto; /* Permet à la ligne de s'ajuster à la hauteur du contenu */
 }
 
-/* REVIEW COLORS */
+.table__rows > * {
+  border-top: 1px solid var(--primary); /* Bordure uniforme pour éviter les décalages */
+  padding: 0.5rem 0.75rem; /* Ajout de padding pour éviter que le contenu ne touche les bords */
+  height: 100%;
+  vertical-align: middle; /* Assure que le contenu reste centré verticalement */
+  box-sizing: border-box; /* Inclut la bordure et le padding dans la hauteur/largeur */
+}
+
+/* ALIGNEMENT DES ICONES */
+.table__cols-title {
+  text-align: left;
+}
+.table__cols-icons__frame {
+  display: table-cell; /* Aligne les icônes horizontalement */
+}
+.table__cols-icons__flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0.5rem; /* Ajoute du padding pour centrer les icônes */
+  height: 100%; /* Prend toute la hauteur du parent */
+  box-sizing: border-box;
+}
+.icons {
+  display: block; /* Assure que chaque icône est sur une nouvelle ligne */
+  width: 1rem; /* Taille fixe pour les icônes */
+  aspect-ratio: 1/1;
+  color: currentColor;
+}
+
+/* COULEURS DE REVUE */
 .review_1 {
   background-color: #3f7bcf05;
 }
@@ -133,8 +182,11 @@ table {
   background-color: #3f7bcf90;
 }
 
-/* CHECKBOX */
-.checkbox {
-  cursor: pointer;
+/* SECTION DU TABLEAU */
+.section__table {
+  width: 100%;
+  height: fit-content;
+  background: var(--off-white-light);
 }
+
 </style>

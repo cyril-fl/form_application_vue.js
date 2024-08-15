@@ -181,6 +181,7 @@ const controlData = () => {
   .section__form {
     grid-column: 1 / span 5;
     grid-row: 1 / span 12;
+    min-width: 18rem;
   }
 
   /* FORM */
