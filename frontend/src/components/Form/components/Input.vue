@@ -32,7 +32,8 @@ const renderInput = () => {
     case 'ADDRESS':
       return h(Address, {
         id: ID,
-        name: PROPS.name
+        name: PROPS.name,
+        required: PROPS.required
       });
 
     case 'CHOICE':
@@ -92,7 +93,7 @@ const renderInput = () => {
     width: 20%;
     max-width: 14rem;
     font-size: 0.75rem;
-    color: var(--primary);
+    color: var(--accent);
   }
   .form__input {
     flex-grow: 1;
@@ -110,11 +111,11 @@ const renderInput = () => {
   }
   .form__input:focus {
     outline: none;
-    border: 0.2rem solid #0066FF90;
+    border: 0.2rem solid var(--accent);
     color: var(--primary);
   }
   .form__input:hover {
-    border: 0.2rem solid #0066FF90;
-    box-shadow: 0 0 0.1rem 0.2rem #0066FF30;
+    border: 0.2rem solid var(--accent);
+    box-shadow: 0 0 0.1rem 0.2rem rgba(var(--accent-rgb), 0.30);
   }
 </style>

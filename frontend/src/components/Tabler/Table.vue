@@ -125,7 +125,6 @@ table {
 .table__title > * {
   padding: 0.75rem 1rem;
   text-align: left;
-
 }
 
 /* TABLE ROWS */
@@ -145,6 +144,8 @@ table {
 /* ALIGNEMENT DES ICONES */
 .table__cols-title {
   text-align: left;
+  background-color: var(--off-white-light);
+
 }
 .table__cols-icons__frame {
   display: table-cell; /* Aligne les icônes horizontalement */
@@ -167,19 +168,19 @@ table {
 
 /* COULEURS DE REVUE */
 .review_1 {
-  background-color: #3f7bcf05;
+  background-color: rgba(var(--primary-rgb), 0.05);
 }
 .review_2 {
-  background-color: #3f7bcf25;
+  background-color: rgba(var(--primary-rgb), 0.25);
 }
 .review_3 {
-  background-color: #3f7bcf40;
+  background-color: rgba(var(--primary-rgb), 0.40);
 }
 .review_4 {
-  background-color: #3f7bcf65;
+  background-color: rgba(var(--primary-rgb), 0.65);
 }
 .review_5 {
-  background-color: #3f7bcf90;
+  background-color: rgba(var(--primary-rgb), 0.90);
 }
 
 /* SECTION DU TABLEAU */

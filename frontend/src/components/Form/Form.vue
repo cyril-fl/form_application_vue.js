@@ -10,13 +10,13 @@ const FORM_FIELDS = [
     type: 'TEXT',
     placeholder: 'Societe SA',
     name: 'company_name',
-    // required: true
+    required: true
   },
   {
     label: 'Adresse',
     type: 'ADDRESS',
     name: 'company_location',
-    // required: true
+    required: true
   },
   //   Ajouter RUE, NUMERO, CODE POSTAL, VILLE
   {
@@ -232,6 +232,10 @@ const controlData = () => {
     background: var(--off-white-dark);
     color: var(--primary);
     transition: all 0.15s ease-in-out;
+  }
+  .button:active {
+    background: var(--accent);
+    color: var(--background);
   }
   .button__submit{
     align-self: center;

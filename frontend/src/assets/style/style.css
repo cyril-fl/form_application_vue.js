@@ -3,10 +3,20 @@
 :root {
     --text: #060d19;
     --background: #f5f8fc;
-    --primary: #3f7bcf;
+    /*--primary: #3f7bcf;*/
+    /*--primary-rgb: 63, 123, 207;*/
+
+    /*--primary: #CFF2C9;*/
+    /*--primary-rgb: 207, 242, 201;*/
+
+    --primary: #71846D;
+    --primary-rgb: 113, 132, 109;
+    --accent: #C8EAC2;
+    --accent-rgb: 200, 234, 194;
+
     --secondary: #F56470;
     --secondary-bis: #F5B6BB;
-    --accent: #c1d967;
+    /*--accent: #c1d967;*/
 
     /* Tailwind slate */
     --off-white-light: #f8fafc;
@@ -62,7 +72,7 @@ body {
 
 section {
     overflow: hidden;
-    box-shadow: 0 1rem 1.75rem 0 #3f7bcf20;
+    box-shadow: 0 1rem 1.75rem 0 rgba(var(--primary-rgb), 0.10);
     background: white;
     border-radius: 0.2rem;
 }

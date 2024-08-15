@@ -2,7 +2,11 @@
 import { ref, computed } from 'vue';
 const PROPS = defineProps({
   id: String,
-  name: String
+  name: String,
+  required: {
+    type: Boolean,
+    default: false
+  }
 });
 
 // Déclaration des champs d'adresse
@@ -21,18 +25,21 @@ const ADDRESS_FIELDS = [
     placeholder: 'N°',
     name: 'address_number',
     class: 'col-span-1 no-spinner',
+    required: PROPS.required
   },
   {
     type: 'TEXT',
     placeholder: 'Rue',
     name: 'address_street',
     class: 'col-span-2',
+    required: PROPS.required
   },
   {
     type: 'TEXT',
     placeholder: 'Ville',
     name: 'address_city',
     class: 'col-span-2',
+    required: PROPS.required
   },
   {
     type: 'ZIP',
