@@ -1,7 +1,3 @@
-Here's a revised version of your README with an improved logical flow, while maintaining the same style:
-
----
-
 # Application Form
 
 ![Screenshot of Application Form](./public/assets/webp/screenshoot.webp)
