@@ -4,7 +4,53 @@ import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize} from "@/custom_method.js";
 import {onMounted ,onUnmounted , ref} from "vue";
 
-const companies = ref([]);
+const COMPAGNIES = ref([]);
+const MOCKUP_DATA = [
+  {
+    company_name: 'Google',
+    company_location: 'Mountain View, CA',
+    application_type: 'Stage',
+    application_type_optional: 'https://www.google.com',
+    review_comment: 'Très bonne expérience',
+    review_status: 5,
+    company_has_responded: true
+  },
+  {
+    company_name: 'Facebook',
+    company_location: 'Menlo Park, CA',
+    application_type: 'Emploi',
+    application_type_optional: 'https://www.facebook.com',
+    review_comment: 'Expérience mitigée',
+    review_status: 3,
+    company_has_responded: false
+  },
+  {
+    company_name: 'Amazon',
+    company_location: 'Seattle, WA',
+    application_type: 'Emploi',
+    application_type_optional: 'https://www.amazon.com',
+    review_comment: 'Expérience négative',
+    review_status: 1,
+    company_has_responded: false
+  }, {
+    company_name: 'Microsoft',
+    company_location: 'Redmond, WA',
+    application_type: 'Emploi',
+    application_type_optional: 'https://www.microsoft.com',
+    review_comment: 'Expérience positive',
+    review_status: 4,
+    company_has_responded: true
+  },
+  {
+    company_name: 'Apple',
+    company_location: 'Cupertino, CA',
+    application_type: 'Emploi',
+    application_type_optional: 'https://www.apple.com',
+    review_comment: 'Expérience très positive',
+    review_status: 5,
+    company_has_responded: true
+  }
+]
 
 onMounted(() => {
   const fetchData = async () => {
@@ -15,8 +61,8 @@ onMounted(() => {
       }
 
       const data = await response.json(); // Parse la réponse en JSON
-      companies.value = data; // Stocke les données dans la variable commpanies
-      console.log(companies.value);
+      COMPAGNIES.value = data; // Stocke les données dans la variable commpanies
+      console.log(COMPAGNIES.value);
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
     }
@@ -25,7 +71,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  companies.value = []; // Réinitialise la valeur de companies lorsque le composant est démonté
+  COMPAGNIES.value = []; // Réinitialise la valeur de companies lorsque le composant est démonté
 });
 
 function getReviewClass(review) {
@@ -61,7 +107,7 @@ function getReviewClass(review) {
       </tr>
       </thead>
       <tbody>
-        <tr v-for="(data, index) in companies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
+        <tr v-for="(data, index) in COMPAGNIES" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
           <th class="table__cols-title">
             <template v-if="data.company_website !== '' ">
               <Link :link="data.company_website" :name="data.company_name"/>
