@@ -1,5 +1,8 @@
 <script setup>
-const props = defineProps({
+import { computed } from 'vue';
+import {isValidEmail, isValidURL} from "@/custom_method.js";
+
+const PROPS = defineProps({
   link: String,
   name: String,
   icons: {
@@ -7,14 +10,18 @@ const props = defineProps({
     default: false
   }
 });
+
+const computedHref = computed(() => {
+  if (isValidURL(decodeURIComponent(PROPS.link))) {
+    return decodeURIComponent(PROPS.link);
+  } else if (isValidEmail(PROPS.link)) {
+    return `mailto:${PROPS.link}`;
+  }
+});
 </script>
 
 <template>
-<!-- todo : gerer si le link est une URL ou un email.
-  dans le cas d'un mail utiliser un lien avec mail.to
- -->
-  {{console.log(link)}}
-  <a v-if="link !== undefined" :href="decodeURIComponent(link)" target="_blank" rel="noopener noreferrer" :class="{'table__cols-icons__flex': icons}">
+  <a v-if="link !== null" :href="computedHref" target="_blank" rel="noopener noreferrer" :class="{'table__cols-icons__flex': icons}">
     <v-icon v-if="icons" :name="name" class="icons" />
     <template v-else>{{ name }}</template>
   </a>
@@ -24,8 +31,7 @@ const props = defineProps({
   a {
     color: var(--primary);
     font-style: italic;
-    height: 100%;
-      text-align: left;
+    text-align: left;
   }
   a:hover {
     color: var(--off-gray-dark);

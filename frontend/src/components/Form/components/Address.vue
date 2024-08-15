@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import {ref, computed, watch} from 'vue';
 const PROPS = defineProps({
   id: String,
   name: String,
@@ -7,15 +7,6 @@ const PROPS = defineProps({
     type: Boolean,
     default: false
   }
-});
-
-// Déclaration des champs d'adresse
-const addressData = ref({
-  address_number: '',
-  address_street: '',
-  address_city: '',
-  address_zipcode: '',
-  address_country: ''
 });
 
 const ADDRESS_FIELDS = [
@@ -54,23 +45,45 @@ const ADDRESS_FIELDS = [
     class: 'col-span-3',
   }
 ]
-const formattedAddress = computed(() => {
-  return `${addressData.value.address_number} ${addressData.value.address_street}, ${addressData.value.address_zipcode} ${addressData.value.address_city}, ${addressData.value.address_country}`.trim();
+const ADDRESS_DATA = ref({
+  address_number: '',
+  address_street: '',
+  address_city: '',
+  address_zipcode: '',
+  address_country: ''
 });
+const ADDRESS_INPUTS_IS_FOCUSED = ref(false);
+
+const formattedAddress = computed(() => {
+  return `${ADDRESS_DATA.value.address_number} ${ADDRESS_DATA.value.address_street}, ${ADDRESS_DATA.value.address_zipcode} ${ADDRESS_DATA.value.address_city}, ${ADDRESS_DATA.value.address_country}`.trim();
+});
+
+const handleFocus = () => {
+  if (!ADDRESS_INPUTS_IS_FOCUSED.value) {
+    ADDRESS_INPUTS_IS_FOCUSED.value = true;
+  }
+};
+
+const handleFocusOut = () => {
+  ADDRESS_INPUTS_IS_FOCUSED.value = false;
+};
+
 </script>
 
 <template>
   <div class="form__field">
-    <div class="form__address-field form__input">
+    <div class="form__address-field form__input" :class="{'form__input__focus': ADDRESS_INPUTS_IS_FOCUSED}">
       <input
           v-for="field in ADDRESS_FIELDS" :key="field.name"
-          v-model="addressData[field.name]"
+          v-model="ADDRESS_DATA[field.name]"
           :id="field.id"
           :type="field.type.toLowerCase()"
           :placeholder="field.placeholder"
           class="form__address-item "
           :class="field.class"
           :required="field.required"
+          :onfocus="handleFocus"
+          :onfocusout="handleFocusOut"
       />
     </div>
     <input type="hidden" :name="name" :value="formattedAddress">
@@ -102,6 +115,10 @@ const formattedAddress = computed(() => {
 
 .form__address-item:focus {
   outline: none;
+}
+
+.form__input__focus {
+  border: 0.2rem solid var(--accent);
 }
 
 /* Gère les colonnes pour les différents champs */

@@ -42,7 +42,7 @@ console.log(CHOICE_SELECTED)
       <input :id="`${id}_additionalInfo`" :type="CHOICE_SELECTED.field.type"  :class="PROPS.class" :name="name+'_optional'" :placeholder="CHOICE_SELECTED.field.placeholder" />
     </div>
   </template>
-  <input v-else type="hidden" :name="name+'_optional'" value="">
+  <input v-else type="hidden" :name="name+'_optional'" :value="null">
 </template>
 
 <style scoped>

@@ -1,8 +1,7 @@
 import express from 'express';
 import { Database } from '../../config/database.js';
-import {isValidURL} from "../../custom_method.js";
-import { body, validationResult } from 'express-validator';
-
+import {isValidEmail, isValidURL, escapeHtml} from "../../custom_method.js";
+import { body,validationResult } from 'express-validator';
 export const router = express.Router();
 
 /* POST */
@@ -19,7 +18,13 @@ router.post('/submit', [
         .optional({ checkFalsy: true })
         .trim()
         .customSanitizer(value => {
-            return isValidURL(value) ? encodeURIComponent(decodeURIComponent(value)) : value.escape() ;
+            if (isValidURL(value)) {
+                return encodeURIComponent(decodeURIComponent(value));
+            } else if (isValidEmail(value)) {
+                return value.trim();
+            } else {
+                return escapeHtml(value); // Sanitizes other strings
+            }
         }),
     body('review_status').trim().escape().isInt({ min: 0 }), // Assure que c'est un entier >= 0
     body('review_comment').optional({ checkFalsy: true }).trim().escape(),

@@ -10,15 +10,14 @@ const FORM_FIELDS = [
     type: 'TEXT',
     placeholder: 'Societe SA',
     name: 'company_name',
-    required: true
+    // required: true
   },
   {
     label: 'Adresse',
     type: 'ADDRESS',
     name: 'company_location',
-    required: true
+    // required: true
   },
-  //   Ajouter RUE, NUMERO, CODE POSTAL, VILLE
   {
     label: 'Site web',
     type: 'URL',
@@ -76,7 +75,7 @@ const formatData = (data) => {
     let temp_Value = value;
 
     /*
-      // todo : gérer les erreurs possible et le contenue des champs obligatoires ect.
+      // Todo : gérer les erreurs possible et le contenue des champs obligatoires ect.
       Formatter les données genre nombres de caractères gestions des types ect ici
     */
     switch (key) {
@@ -90,6 +89,7 @@ const formatData = (data) => {
         temp_Value = temp_Value.toUpperCase()
         break
       case "application_type_optional" :
+        temp_Value = temp_Value === "" ? null : temp_Value
         break
       case "review_status" :
         break

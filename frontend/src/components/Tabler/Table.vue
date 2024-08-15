@@ -2,7 +2,7 @@
 import Checkbox from "@/components/Tabler/components/Checkbox.vue";
 import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize} from "@/custom_method.js";
-import {onMounted, ref} from "vue";
+import {onMounted ,onUnmounted , ref} from "vue";
 
 const companies = ref([]);
 
@@ -24,7 +24,9 @@ onMounted(() => {
   fetchData();
 });
 
-
+onUnmounted(() => {
+  companies.value = []; // Réinitialise la valeur de companies lorsque le composant est démonté
+});
 
 function getReviewClass(review) {
   if (review === 1) {
