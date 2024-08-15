@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+:root {
+    --text: #060d19;
+    --background: #f5f8fc;
+    --primary: #3f7bcf;
+    --secondary: #F56470;
+    --secondary-bis: #F5B6BB;
+    --accent: #c1d967;
+
+    /* Tailwind slate */
+    --off-white-light: #f8fafc;
+    --off-white: #F4F4F4;
+    --off-white-dark: #f1f5f9;
+
+    --off-gray-light: #e2e8f0;
+    --off-gray: #cbd5e1;
+    --off-gray-dark: #94a3b8;
+
+    --off-black-light: #334155;
+    --off-black: #0f172a;
+    --off-black-dark: #020617;
+}
+
+/* Global CSS Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* Set base font size and font family */
+html {
+    line-height: 1.5;
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+/* Remove default padding and margins */
+body {
+    background: var(--background);
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    gap: 1rem;
+    padding: 1.25rem;
+    font-family: 'Merriweather Sans', sans-serif;
+    color: var(--off-black-light);
+}
+
+section {
+    overflow: hidden;
+    box-shadow: 0 1rem 1.75rem 0 #3f7bcf20;
+    background: white;
+    border-radius: 0.2rem;
+}
+
+/* Allow percentage-based heights */
+html, body {
+    height: 100%;
+}
+
+/* Make images responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Remove the default list styles */
+ul, ol {
+    list-style: none;
+}
+
+/* Remove default quotes for blockquotes */
+blockquote, q {
+    quotes: none;
+}
+
+blockquote::before, blockquote::after,
+q::before, q::after {
+    content: '';
+    content: none;
+}
+
+/* Ensure input elements inherit font styles */
+input, button, textarea, select {
+    font: inherit;
+}
+
+/* Remove default button styles */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Remove text decoration from links */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Remove default table spacing */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Normalize the display of form elements */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+}
+
+input[type="search"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
