@@ -2,11 +2,12 @@
 import Checkbox from "@/components/Tabler/components/Checkbox.vue";
 import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
-import {onMounted, onUnmounted, ref} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 
 const PROPS = defineProps({
   compagnies: Array
 });
+const tableContainer = ref(null);
 
 const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
@@ -94,11 +95,21 @@ function getReviewClass(review) {
   }
 }
 
-
+watch(
+    () => PROPS.compagnies.length,
+    () => {
+      if (tableContainer.value) {
+        tableContainer.value.scrollTo({
+          top: tableContainer.value.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }
+);
 </script>
 
 <template>
-  <section class="section__table">
+  <section class="section__table" ref="tableContainer">
     <table>
       <thead>
       <tr class="table__title">

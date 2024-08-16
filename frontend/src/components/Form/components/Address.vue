@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, watch} from 'vue';
+import {ref, computed} from 'vue';
 const PROPS = defineProps({
   id: String,
   name: String,
@@ -90,7 +90,7 @@ const handleFocusOut = () => {
   </div>
 </template>
 
-<style scoped>
+<style>
 /* Conteneur de la grille */
 .form__address-field {
   display: grid;
@@ -106,7 +106,6 @@ const handleFocusOut = () => {
   background: none  ;
   color: var(--off-black-light);
   max-width: 100%; /* S'assure que l'élément ne dépasse pas */
-  height: 100%; /* Prend toute la hauteur disponible */
 }
 
 .form__address-item::placeholder {
