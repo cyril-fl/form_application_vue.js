@@ -1,5 +1,5 @@
 <script setup>
-import { define_id } from "@Form/ID.js";
+import { define_id } from "@/custom_method.js";
 import Review from "@Form/components/Review.vue";
 import ChoiceList from "@/components/Form/components/ChoiceList.vue";
 import { h } from "vue";

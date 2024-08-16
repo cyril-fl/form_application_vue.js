@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { BiStarFill, BiStar, HiSolidLink, HiSolidAtSymbol } from "oh-vue-icons/icons";
+import { BiStarFill, BiStar, BiSquare, BiCheckSquareFill, HiSolidLink, HiSolidAtSymbol, HiSolidCheckCircle } from "oh-vue-icons/icons";
 
-addIcons(BiStarFill, BiStar, HiSolidLink, HiSolidAtSymbol);
+addIcons(BiStarFill, BiStar, BiSquare, BiCheckSquareFill, HiSolidLink, HiSolidAtSymbol, HiSolidCheckCircle);
 
 const   app = createApp(App);
         app.component("v-icon", OhVueIcon);

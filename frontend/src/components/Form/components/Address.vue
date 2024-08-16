@@ -91,7 +91,10 @@ const handleFocusOut = () => {
 </template>
 
 <style>
-/* Conteneur de la grille */
+/* GLOBAL COMPONENT */
+.form__input__focus {
+  border: 0.2rem solid var(--accent);
+}
 .form__address-field {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 colonnes égales */
@@ -100,27 +103,21 @@ const handleFocusOut = () => {
   overflow: hidden; /* Cache tout dépassement */
 }
 
-/* Styles des champs individuels */
+/* FIELDS */
 .form__address-item {
   box-sizing: border-box; /* Inclut padding et bordure dans la largeur/hauteur */
   background: none  ;
   color: var(--off-black-light);
   max-width: 100%; /* S'assure que l'élément ne dépasse pas */
 }
-
 .form__address-item::placeholder {
   color: var(--off-gray);
 }
-
 .form__address-item:focus {
   outline: none;
 }
 
-.form__input__focus {
-  border: 0.2rem solid var(--accent);
-}
-
-/* Gère les colonnes pour les différents champs */
+/* COLUMNS */
 .col-span-1 {
   grid-column: span 1 / span 1;
 }
@@ -131,26 +128,12 @@ const handleFocusOut = () => {
   grid-column: span 3 / span 3;
 }
 
-/* Optionnel : Réactivité pour les écrans plus petits */
-@media (max-width: 768px) {
-  .form__address-field {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* Passe à 2 colonnes */
-  }
-}
-
-@media (max-width: 480px) {
-  .form__address-field {
-    grid-template-columns: 1fr; /* Passe à 1 colonne */
-  }
-}
-
+/* Disable input type number arrow */
 .no-spinner::-webkit-inner-spin-button,
 .no-spinner::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-/* Masquer les flèches dans Firefox */
 .no-spinner[type='number'] {
   -moz-appearance: textfield;
 }

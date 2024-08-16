@@ -1,8 +1,8 @@
 <script setup>
-import {ref, defineEmits} from "vue";
+import {ref, defineEmits, watchEffect} from "vue";
 import Input from "@Form/components/Input.vue";
 
-const EMIT = defineEmits(['added']);
+const EMIT = defineEmits(['add_temporary','add_success','add_error']);
 const FORM= ref(null);
 const FORM_FIELDS = [
   {
@@ -10,13 +10,13 @@ const FORM_FIELDS = [
     type: 'TEXT',
     placeholder: 'Societe SA',
     name: 'company_name',
-    // required: true
+    required: true
   },
   {
     label: 'Adresse',
     type: 'ADDRESS',
     name: 'company_location',
-    // required: true
+    required: true
   },
   {
     label: 'Site web',
@@ -48,6 +48,7 @@ const FORM_FIELDS = [
   }
 ]
 const FORM_ERROR_NOTIFICATION = ref(null)
+const FORM_SUCCESS_NOTIFICATION = ref(false)
 
 const cleanData = (data) => {
   const cleaned_data = {};
@@ -108,6 +109,7 @@ const formatData = (data) => {
   return formated_data;
 }
 
+
 const submitData = (data) => {
   console.log(data);
   fetch('http://localhost:3000/api/submit', {
@@ -119,17 +121,22 @@ const submitData = (data) => {
   })
       .then(res => {
         if (!res.ok) {
+          FORM_ERROR_NOTIFICATION.value = `Erreur HTTP: ${res.status}`;
           throw new Error('Network res was not ok');
         }
-        return res.text(); // ou res.json() si vous attendez un JSON
+        return res.json(); // res.json() if res isJSON
       })
       .then(res => {
-        console.log(res); // Affiche la réponse du serveur
-
+        console.log('submitData',res); // Affiche la réponse du serveur
+        FORM_SUCCESS_NOTIFICATION.value = true;
+        EMIT('add_success', res.id);
         FORM.value.reset();
-        EMIT('added', data)
       })
-      .catch(error => console.error('Erreur:', error));
+      .catch(error => {
+        console.error('Erreur:', error)
+        FORM_ERROR_NOTIFICATION.value = `Erreur lors de l'envoie du formulaire : ${error}`;
+        EMIT('add_error');
+      });
 };
 
 const controlData = () => {
@@ -142,8 +149,19 @@ const controlData = () => {
   const data_cleaned = cleanData(data_raw);
   const data_formated = formatData(data_cleaned);
 
-  submitData(data_formated)
+  EMIT('add_temporary', data_formated);
+
+  submitData(data_formated);
 };
+
+watchEffect(() => {
+  if (FORM_SUCCESS_NOTIFICATION.value) {
+    setTimeout(() => {
+      FORM_SUCCESS_NOTIFICATION.value = false;
+    }, 1500); // Réinitialiser après 1,5 seconde
+  }
+});
+
 </script>
 
 <template>
@@ -151,11 +169,17 @@ const controlData = () => {
     <form @submit.prevent="controlData" ref="FORM">
       <div class="form__header">
         <h2 class="form__title">Candidature</h2>
-        <h3 v-if="FORM_ERROR_NOTIFICATION !== null" class="form__notification">
-          {{ FORM_ERROR_NOTIFICATION}}
-        </h3>
-      </div>
 
+        <transition name="fade">
+          <h3 v-if="FORM_ERROR_NOTIFICATION" class="form__notification__Error">{{ FORM_ERROR_NOTIFICATION }}</h3>
+        </transition>
+        <transition name="fade">
+          <div v-if="FORM_SUCCESS_NOTIFICATION" class="form__notification__Success">
+            <v-icon name="hi-solid-check-circle" />
+          </div>
+        </transition>
+
+      </div>
 
       <template v-for="field in FORM_FIELDS" :key="field.name">
         <Input
@@ -195,16 +219,21 @@ const controlData = () => {
     font-size: 1rem;
     font-weight: bold;
   }
-  .form__notification {
+  .form__notification__Error {
     background: var(--secondary-bis);
+    color: var(--secondary);
     border-radius: 0.25rem;
     flex-grow: 1;
     padding: 0.3rem;
-    color: var(--secondary);
     font-style: italic;
     font-size: 0.75rem;
     text-align: center;
   }
+
+  .form__notification__Success {
+    color: var(--accent);
+  }
+
 
   /* BUTTON */
   .button {
@@ -228,5 +257,18 @@ const controlData = () => {
   .button__submit{
     align-self: center;
     width: fit-content;
+  }
+
+  /* Transition fade */
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  .fade-enter-to, .fade-leave-from {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>

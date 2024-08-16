@@ -2,12 +2,13 @@
 import Checkbox from "@/components/Tabler/components/Checkbox.vue";
 import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref, watch, nextTick} from "vue";
 
 const PROPS = defineProps({
   compagnies: Array
 });
-const tableContainer = ref(null);
+const TABLE_CONTAINER = ref(null);
+const FIRST_LOAD = ref(true); // Variable pour suivre si c'est le premier chargement
 
 const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
@@ -65,9 +66,10 @@ onMounted(() => {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
 
-      const data = await response.json(); // Parse la réponse en JSON
+      const data = await response.json();
+      console.log(data);
+      PROPS.compagnies.push(...data); // Add data to shared state
 
-      PROPS.compagnies.push(...data); // Stocke les données dans la variable commpanies
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
     }
@@ -76,40 +78,48 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  COMPAGNIES.value = []; // Réinitialise la valeur de companies lorsque le composant est démonté
+  PROPS.compagnies.value = []; // Clear data on unmount
 });
 
 function getReviewClass(review) {
-  if (review === 1) {
-    return 'review_1';
-  } else if (review === 2) {
-    return 'review_2';
-  } else if (review === 3) {
-    return 'review_3';
-  } else if (review === 4) {
-    return 'review_4';
-  } else if (review === 5) {
-    return 'review_5';
-  } else {
-    return '';
+  switch (review) {
+    case 1:
+      return 'review_1';
+    case 2:
+      return 'review_2';
+    case 3:
+      return 'review_3';
+    case 4:
+      return 'review_4';
+    case 5:
+      return 'review_5';
+    default:
+      return '';
   }
 }
 
+
 watch(
     () => PROPS.compagnies.length,
-    () => {
-      if (tableContainer.value) {
-        tableContainer.value.scrollTo({
-          top: tableContainer.value.scrollHeight,
-          behavior: 'smooth'
-        });
+    async () => {
+      if (!FIRST_LOAD.value) {
+        await nextTick(); // Await DOM update
+        if (TABLE_CONTAINER.value) {
+          TABLE_CONTAINER.value.scrollTo({
+            top: TABLE_CONTAINER.value.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      } else {
+        FIRST_LOAD.value = false; // Set FIRST_LOAD to false after first load
       }
     }
 );
+
 </script>
 
 <template>
-  <section class="section__table" ref="tableContainer">
+  <section class="section__table" ref="TABLE_CONTAINER">
     <table>
       <thead>
       <tr class="table__title">
@@ -158,7 +168,7 @@ watch(
               />
             </div>
           </td>
-          <td><Checkbox :state="data.company_has_responded" /></td>
+          <td class="table__cols-icons__frame"><Checkbox :state="data.company_has_responded" /></td>
         </tr>
       </tbody>
     </table>
@@ -237,8 +247,7 @@ table {
   z-index: 1;
 }
 
-
-/* COULEURS DE REVUE */
+/* ROWS CONDITIONAL COLOR */
 .review_1 {
   background-color: rgba(var(--primary-rgb), 0.05);
 }
@@ -254,7 +263,4 @@ table {
 .review_5 {
   background-color: rgba(var(--primary-rgb), 0.90);
 }
-
-
-
 </style>
