@@ -98,7 +98,6 @@ function getReviewClass(review) {
   }
 }
 
-
 watch(
     () => PROPS.compagnies.length,
     async () => {
@@ -168,7 +167,7 @@ watch(
               />
             </div>
           </td>
-          <td class="table__cols-icons__frame"><Checkbox :state="data.company_has_responded" /></td>
+          <td class="table__cols-icons__frame"><Checkbox :id="data._id" :state="data.company_has_responded" /></td>
         </tr>
       </tbody>
     </table>

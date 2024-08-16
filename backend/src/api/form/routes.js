@@ -2,6 +2,8 @@ import express from 'express';
 import { Database } from '../../config/database.js';
 import {isValidEmail, isValidURL, escapeHtml} from "../../custom_method.js";
 import { body,validationResult } from 'express-validator';
+import { ObjectId } from 'mongodb';
+
 export const router = express.Router();
 
 /* POST */
@@ -69,5 +71,33 @@ router.get('/data', async (req, res) => {
     } catch (error) {
         console.error('Erreur lors de la récupération des données:', error);
         res.status(500).json({ error: 'Erreur interne du serveur' }); // Retourner une erreur 500 en cas d'erreur
+    }
+});
+
+router.patch('/update/:id', async (req, res) => {
+    const { id } = req.params;
+    const { company_has_responded } = req.body; // Obtenez uniquement les champs nécessaires
+
+    if (typeof company_has_responded !== 'boolean') {
+        return res.status(400).json({ message: 'Le champ company_has_responded doit être un booléen.' });
+    }
+
+    try {
+        const dbInstance = await Database.getInstance(); // Récupérer l'instance de la base de données
+        const collection = dbInstance.getDb().collection('appliance_data'); // Nom de la collection
+
+        const result = await collection.updateOne(
+            { _id: new ObjectId(id) }, // Filtrer par l'ID du document
+            { $set: { company_has_responded } }
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: 'Ressource non trouvée.' });
+        }
+
+        res.status(200).json({ message: 'Ressource mise à jour avec succès.' });
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour:', error);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
     }
 });
