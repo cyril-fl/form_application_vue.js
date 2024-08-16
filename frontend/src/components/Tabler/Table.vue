@@ -123,7 +123,7 @@ function getReviewClass(review) {
           <td>{{ toCapitalize(data.application_type) }}</td>
 
           <td class="table__cols-icons__frame">
-            <Link :link="data.application_type_optional" name="hi-solid-link" :icons="true"/>
+            <Link :link="data.application_type_optional" :icons="{link: 'hi-solid-link', mail: 'hi-solid-at-symbol'}"/>
           </td>
 
           <td>{{ toDecodeHtml(data.review_comment) }}</td>

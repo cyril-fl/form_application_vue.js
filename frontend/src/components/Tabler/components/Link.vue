@@ -4,10 +4,13 @@ import {isValidEmail, isValidURL} from "@/custom_method.js";
 
 const PROPS = defineProps({
   link: String,
-  name: String,
+  name: {
+    type: String,
+    default: ''
+  },
   icons: {
-    type: Boolean,
-    default: false
+    type: Object,
+    default: null
   }
 });
 
@@ -18,11 +21,22 @@ const computedHref = computed(() => {
     return `mailto:${PROPS.link}`;
   }
 });
+
+const computedIcon = computed(() => {
+  if (PROPS.icons) {
+    if (isValidURL(decodeURIComponent(PROPS.link))) {
+      return PROPS.icons.link;
+    } else if (isValidEmail(PROPS.link)) {
+      return PROPS.icons.mail;
+    }
+  }
+});
+
 </script>
 
 <template>
   <a v-if="link !== null" :href="computedHref" target="_blank" rel="noopener noreferrer" :class="{'table__cols-icons__flex': icons}">
-    <v-icon v-if="icons" :name="name" class="icons" />
+    <v-icon v-if="icons" :name="computedIcon" class="icons" />
     <template v-else>{{ name }}</template>
   </a>
 </template>
