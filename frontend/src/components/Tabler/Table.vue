@@ -5,6 +5,7 @@ import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
 import {onMounted, onUnmounted, ref} from "vue";
 
 const COMPAGNIES = ref([]);
+const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
   {
     company_name: 'Google',
@@ -95,22 +96,21 @@ function getReviewClass(review) {
 
 <template>
   <section class="section__table">
-
     <table>
       <thead>
       <tr class="table__title">
-        <th>Société</th>
-        <th>Adresse</th>
-        <th>Candidature</th>
-        <th>Complement</th>
-        <th>Commentaire</th>
-        <th>Note</th>
-        <th>Response</th>
+        <th class="table__origin">Société</th>
+        <th class="table__rows__fixed">Adresse</th>
+        <th class="table__rows__fixed">Candidature</th>
+        <th class="table__rows__fixed">Complement</th>
+        <th class="table__rows__fixed">Commentaire</th>
+        <th class="table__rows__fixed">Note</th>
+        <th class="table__rows__fixed">Response</th>
       </tr>
       </thead>
       <tbody>
         <tr v-for="(data, index) in COMPAGNIES" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
-          <th class="table__cols-title">
+          <th class="table__cols__fixed rows__compagnie-name">
             <template v-if="data.company_website !== '' ">
               <Link :link="data.company_website" :name="data.company_name"/>
             </template>
@@ -152,37 +152,28 @@ function getReviewClass(review) {
 </template>
 
 <style>
-/* SECTION */
-.section__table {
-  grid-column: 6 / span 13;
-  grid-row: 1 / span 12;
-  background: var(--off-white-light);
-}
 /* TABLE */
 table {
-  border-collapse: collapse; /* Fusionne les bordures pour éviter les décalages */
   width: 100%;
   font-size: 0.875rem;
 }
 
 /* TABLE HEADER */
 .table__title {
-  background: var(--primary);
   color: white;
   text-transform: uppercase;
   font-weight: bold;
 }
 .table__title > * {
+  background: var(--primary);
   padding: 0.75rem 1rem;
   text-align: left;
 }
 
 /* TABLE ROWS */
 .table__rows {
-  background: #c1d967;
   height: auto; /* Permet à la ligne de s'ajuster à la hauteur du contenu */
 }
-
 .table__rows > * {
   border-top: 1px solid var(--primary); /* Bordure uniforme pour éviter les décalages */
   padding: 0.5rem 0.75rem; /* Ajout de padding pour éviter que le contenu ne touche les bords */
@@ -190,13 +181,11 @@ table {
   vertical-align: middle; /* Assure que le contenu reste centré verticalement */
   box-sizing: border-box; /* Inclut la bordure et le padding dans la hauteur/largeur */
 }
-
-/* ALIGNEMENT DES ICONES */
-.table__cols-title {
+.rows__compagnie-name {
   text-align: left;
   background-color: var(--off-white-light);
-
 }
+/* TABLE COLUMN */
 .table__cols-icons__frame {
   display: table-cell; /* Aligne les icônes horizontalement */
 }
@@ -216,6 +205,25 @@ table {
   color: currentColor;
 }
 
+/* FIXED CELLS */
+.table__origin {
+  z-index: 2;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+.table__cols__fixed {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.table__rows__fixed {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
 /* COULEURS DE REVUE */
 .review_1 {
   background-color: rgba(var(--primary-rgb), 0.05);
@@ -233,11 +241,6 @@ table {
   background-color: rgba(var(--primary-rgb), 0.90);
 }
 
-/* SECTION DU TABLEAU */
-.section__table {
-  width: 100%;
-  height: fit-content;
-  background: var(--off-white-light);
-}
+
 
 </style>

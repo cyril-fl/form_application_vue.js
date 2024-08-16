@@ -176,24 +176,13 @@ const controlData = () => {
   </section>
 </template>
 
-<style scoped>
-  /* SECTION */
-  .section__form {
-    grid-column: 1 / span 5;
-    grid-row: 1 / span 12;
-    min-width: 18rem;
-  }
-
+<style>
   /* FORM */
   form {
-    height: 100%;
-    background: white;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    gap: 1rem;
-    padding: 2rem 1.5rem;
   }
   .form__header {
     width: 100%;
