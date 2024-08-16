@@ -1,8 +1,8 @@
 <script setup>
 import Checkbox from "@/components/Tabler/components/Checkbox.vue";
 import Link from "@/components/Tabler/components/Link.vue";
-import {toCapitalize} from "@/custom_method.js";
-import {onMounted ,onUnmounted , ref} from "vue";
+import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
+import {onMounted, onUnmounted, ref} from "vue";
 
 const COMPAGNIES = ref([]);
 const MOCKUP_DATA = [
@@ -89,6 +89,8 @@ function getReviewClass(review) {
     return '';
   }
 }
+
+
 </script>
 
 <template>
@@ -124,7 +126,7 @@ function getReviewClass(review) {
             <Link :link="data.application_type_optional" name="hi-solid-link" :icons="true"/>
           </td>
 
-          <td>{{ data.review_comment }}</td>
+          <td>{{ toDecodeHtml(data.review_comment) }}</td>
 
           <td class="table__cols-icons__frame">
             <div class="table__cols-icons__flex">
