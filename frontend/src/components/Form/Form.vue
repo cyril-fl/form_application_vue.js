@@ -1,8 +1,8 @@
 <script setup>
-import {ref} from "vue";
+import {ref, defineEmits} from "vue";
 import Input from "@Form/components/Input.vue";
-import Address from "@Form/components/Address.vue";
 
+const EMIT = defineEmits(['added']);
 const FORM= ref(null);
 const FORM_FIELDS = [
   {
@@ -109,25 +109,25 @@ const formatData = (data) => {
 }
 
 const submitData = (data) => {
+  console.log(data);
   fetch('http://localhost:3000/api/submit', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: data
+    body: JSON.stringify(data)
   })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network res was not ok');
         }
-        return response.text(); // ou response.json() si vous attendez un JSON
+        return res.text(); // ou res.json() si vous attendez un JSON
       })
-      .then(data => {
-        console.log(data); // Affiche la réponse du serveur
-        FORM.value.reset();
-        // Todo : window.location.reload est sympa mais j'aurais prefere un fonctinement avec optimiste ,et ect ...
-        window.location.reload(); // ou location.reload();
+      .then(res => {
+        console.log(res); // Affiche la réponse du serveur
 
+        FORM.value.reset();
+        EMIT('added', data)
       })
       .catch(error => console.error('Erreur:', error));
 };
@@ -141,9 +141,8 @@ const controlData = () => {
   const data_raw = new FormData(FORM.value);
   const data_cleaned = cleanData(data_raw);
   const data_formated = formatData(data_cleaned);
-  const jsonString = JSON.stringify(data_formated);
 
-  submitData(jsonString)
+  submitData(data_formated)
 };
 </script>
 

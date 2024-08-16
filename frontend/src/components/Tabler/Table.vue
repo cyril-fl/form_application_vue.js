@@ -4,7 +4,10 @@ import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
 import {onMounted, onUnmounted, ref} from "vue";
 
-const COMPAGNIES = ref([]);
+const PROPS = defineProps({
+  compagnies: Array
+});
+
 const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
   {
@@ -62,8 +65,8 @@ onMounted(() => {
       }
 
       const data = await response.json(); // Parse la réponse en JSON
-      COMPAGNIES.value = data; // Stocke les données dans la variable commpanies
-      console.log(COMPAGNIES.value);
+
+      PROPS.compagnies.push(...data); // Stocke les données dans la variable commpanies
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
     }
@@ -109,7 +112,7 @@ function getReviewClass(review) {
       </tr>
       </thead>
       <tbody>
-        <tr v-for="(data, index) in COMPAGNIES" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
+        <tr v-for="(data, index) in PROPS.compagnies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
           <th class="table__cols__fixed rows__compagnie-name">
             <template v-if="data.company_website !== '' ">
               <Link :link="data.company_website" :name="data.company_name"/>
