@@ -142,7 +142,7 @@ watch(
             </template>
           </th>
 
-          <td>{{ data.company_location }}</td>
+          <td>{{ toDecodeHtml(data.company_location) }}</td>
           <td>{{ toCapitalize(data.application_type) }}</td>
 
           <td class="table__cols-icons__frame">
