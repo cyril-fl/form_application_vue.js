@@ -34,7 +34,7 @@ const handleClick = () => {
 
 <style>
 .order__icon {
-  transform: scale(0.9);
+  transform: scale(0.8);
 }
 .order__icons-minus {
   color: var(--off-gray-dark);
