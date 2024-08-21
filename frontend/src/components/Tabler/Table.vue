@@ -2,8 +2,9 @@
 import Checkbox from "@/components/Tabler/components/Checkbox.vue";
 import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
-import {onMounted, onUnmounted, ref, watch, nextTick} from "vue";
+import {onMounted, onUnmounted, ref, watch, nextTick, computed} from "vue";
 import InfoBulle from "@/components/Tabler/components/InfoBulle.vue";
+import OrderIcon from "@/components/Tabler/components/OrderIcon.vue";
 
 const PROPS = defineProps({
   compagnies: Array
@@ -11,6 +12,10 @@ const PROPS = defineProps({
 const TABLE_CONTAINER = ref(null);
 const FIRST_LOAD = ref(true); // Variable pour suivre si c'est le premier chargement
 const INFO = ref({state: false, date: new Date()});
+const ORDER = ref({
+  by: 'DEFAULT',
+  click: 0
+})
 
 const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
@@ -124,6 +129,44 @@ watch(
     }
 );
 
+const computedCompagnies = computed(() => {
+  if (ORDER.value.click === 0) {
+    return PROPS.compagnies; // Retourne les données non triées si aucun tri n'est demandé
+  }
+
+  const sortKey = ORDER.value.by.toLowerCase();
+  const isReverse = ORDER.value.click === 2;
+
+  return [...PROPS.compagnies].sort((a, b) => {
+    const aValue = a[sortKey];
+    const bValue = b[sortKey];
+
+    let comparison = 0;
+
+    if (typeof aValue === 'string' && typeof bValue === 'string') {
+      comparison = aValue.localeCompare(bValue);
+    } else {
+      comparison = aValue - bValue;
+    }
+
+    return isReverse ? comparison : -comparison;
+  });
+});
+
+const orderBy = (type) => {
+  let temp_click;
+  console.log(ORDER.value)
+
+  if (ORDER.value.click == 2) {
+    temp_click = 0
+  } else {
+    temp_click = ORDER.value.click + 1
+  }
+
+  ORDER.value = {by: type, click: temp_click}
+}
+
+
 </script>
 
 <template>
@@ -131,17 +174,17 @@ watch(
     <table>
       <thead>
         <tr class="table__title">
-          <th class="table__origin">Société</th>
-          <th class="table__rows__fixed">Adresse</th>
-          <th class="table__rows__fixed">Candidature</th>
+          <th class="table__origin"><span class="order">Société<OrderIcon :order="ORDER" th_type="COMPANY_NAME" @onCLick="orderBy"/></span></th>
+          <th class="table__rows__fixed"><span class="order">Adresse<OrderIcon :order="ORDER" th_type="COMPANY_LOCATION" @onCLick="orderBy" /></span></th>
+          <th class="table__rows__fixed"><span class="order">Candidature<OrderIcon :order="ORDER" th_type="APPLICATION_TYPE" @onCLick="orderBy" /></span></th>
           <th class="table__rows__fixed">Complement</th>
           <th class="table__rows__fixed">Commentaire</th>
-          <th class="table__rows__fixed">Note</th>
-          <th class="table__rows__fixed">Response</th>
+          <th class="table__rows__fixed"><span class="order">Note <OrderIcon :order="ORDER" th_type="REVIEW_STATUS" @onCLick="orderBy" /></span></th>
+          <th class="table__rows__fixed"><span class="order">Response <OrderIcon :order="ORDER" th_type="COMPANY_HAS_RESPONDED" @onCLick="orderBy" /></span></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(data, index) in PROPS.compagnies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
+        <tr v-for="(data, index) in computedCompagnies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
           <th class="table__cols__fixed rows__compagnie-name">
             <template v-if="data.company_website !== '' ">
               <Link @hover="handleHover_link" :link="data.company_website" :name="data.company_name" :date="data.application_date"/>
@@ -254,6 +297,12 @@ table {
 .table__rows__fixed {
   position: sticky;
   top: 0;
+}
+
+.order {
+  cursor: pointer;
+  display: flex;
+  gap: 0.25rem;
 }
 
 /* ROWS CONDITIONAL COLOR */
