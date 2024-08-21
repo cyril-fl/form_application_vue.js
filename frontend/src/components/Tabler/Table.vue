@@ -3,12 +3,14 @@ import Checkbox from "@/components/Tabler/components/Checkbox.vue";
 import Link from "@/components/Tabler/components/Link.vue";
 import {toCapitalize, toDecodeHtml} from "@/custom_method.js";
 import {onMounted, onUnmounted, ref, watch, nextTick} from "vue";
+import InfoBulle from "@/components/Tabler/components/InfoBulle.vue";
 
 const PROPS = defineProps({
   compagnies: Array
 });
 const TABLE_CONTAINER = ref(null);
 const FIRST_LOAD = ref(true); // Variable pour suivre si c'est le premier chargement
+const INFO = ref({state: false, date: new Date()});
 
 const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
@@ -81,7 +83,7 @@ onUnmounted(() => {
   PROPS.compagnies.value = []; // Clear data on unmount
 });
 
-function getReviewClass(review) {
+const getReviewClass = (review) => {
   switch (review) {
     case 1:
       return 'review_1';
@@ -96,6 +98,13 @@ function getReviewClass(review) {
     default:
       return '';
   }
+}
+
+const handleHover_link = (data) => {
+  INFO.value = {
+    state: !INFO.value.state,
+    date: new Date(data)
+  };
 }
 
 watch(
@@ -121,21 +130,21 @@ watch(
   <section class="section__table" ref="TABLE_CONTAINER">
     <table>
       <thead>
-      <tr class="table__title">
-        <th class="table__origin">Société</th>
-        <th class="table__rows__fixed">Adresse</th>
-        <th class="table__rows__fixed">Candidature</th>
-        <th class="table__rows__fixed">Complement</th>
-        <th class="table__rows__fixed">Commentaire</th>
-        <th class="table__rows__fixed">Note</th>
-        <th class="table__rows__fixed">Response</th>
-      </tr>
+        <tr class="table__title">
+          <th class="table__origin">Société</th>
+          <th class="table__rows__fixed">Adresse</th>
+          <th class="table__rows__fixed">Candidature</th>
+          <th class="table__rows__fixed">Complement</th>
+          <th class="table__rows__fixed">Commentaire</th>
+          <th class="table__rows__fixed">Note</th>
+          <th class="table__rows__fixed">Response</th>
+        </tr>
       </thead>
       <tbody>
         <tr v-for="(data, index) in PROPS.compagnies" :key="index" class="table__rows" :class="getReviewClass(Number(data.review_status))">
           <th class="table__cols__fixed rows__compagnie-name">
             <template v-if="data.company_website !== '' ">
-              <Link :link="data.company_website" :name="data.company_name"/>
+              <Link @hover="handleHover_link" :link="data.company_website" :name="data.company_name" :date="data.application_date"/>
             </template>
             <template v-else>
               {{ data.company_name }}
@@ -171,7 +180,10 @@ watch(
         </tr>
       </tbody>
     </table>
+
+    <InfoBulle v-if="INFO.state" :date="INFO.date"/>
   </section>
+
 </template>
 
 <style>
@@ -238,12 +250,10 @@ table {
 .table__cols__fixed {
   position: sticky;
   left: 0;
-  z-index: 1;
 }
 .table__rows__fixed {
   position: sticky;
   top: 0;
-  z-index: 1;
 }
 
 /* ROWS CONDITIONAL COLOR */

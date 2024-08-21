@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from 'vue';
-import {isValidEmail, isValidURL} from "@/custom_method.js";
+import {computed, defineEmits} from 'vue';
+import { isValidEmail, isValidURL } from "@/custom_method.js";
 
 const PROPS = defineProps({
   link: String,
@@ -11,48 +11,75 @@ const PROPS = defineProps({
   icons: {
     type: Object,
     default: null
+  },
+  date: {
+    type: String,
+    default: null
   }
 });
+const EMIT = defineEmits(['hover']);
 
 const computedHref = computed(() => {
-  if (isValidURL(decodeURIComponent(PROPS.link))) {
-    return decodeURIComponent(PROPS.link);
+  const decodedLink = decodeURIComponent(PROPS.link);
+  if (isValidURL(decodedLink)) {
+    return decodedLink;
   } else if (isValidEmail(PROPS.link)) {
     return `mailto:${PROPS.link}`;
   }
+  return null;
 });
 
 const computedIcon = computed(() => {
-  if (PROPS.icons) {
-    if (isValidURL(decodeURIComponent(PROPS.link))) {
+  if (PROPS.icons && computedHref.value) {
+    const decodedLink = decodeURIComponent(PROPS.link);
+    if (isValidURL(decodedLink)) {
       return PROPS.icons.link;
-    } else if (isValidEmail(PROPS.link)) {
+    } else if (isValidEmail(decodedLink)) {
       return PROPS.icons.mail;
     }
   }
+  return null;
 });
 
+const handleMouseEnter = () => {
+  EMIT('hover', PROPS.date);
+};
+
+const handleMouseLeave = () => {
+  EMIT('hover', null);
+};
 </script>
 
 <template>
-  <a v-if="link !== null" :href="computedHref" target="_blank" rel="noopener noreferrer" :class="{'table__cols-icons__flex': icons}">
-    <v-icon v-if="icons" :name="computedIcon" class="icons" />
-    <template v-else>{{ name }}</template>
-  </a>
+    <a
+        v-if="computedHref"
+        :href="computedHref"
+        target="_blank"
+        rel="noopener noreferrer"
+        :class="{ 'table__cols-icons__flex': icons }"
+    >
+      <v-icon v-if="computedIcon" :name="computedIcon" class="icons" />
+      <span
+          v-else
+          @mouseenter="handleMouseEnter"
+          @mouseleave="handleMouseLeave"
+          style="cursor: pointer;"
+      >
+        {{ name }}
+      </span>
+    </a>
 </template>
 
 <style scoped>
-  a {
-    color: var(--primary);
-    font-style: italic;
-    text-align: left;
-  }
-  a:hover {
-    color: var(--off-gray-dark);
-    text-decoration: underline;
-  }
-  a:active {
-    color: var(--off-black-dark);
-    text-decoration: none;
-  }
+a {
+  color: var(--primary);
+  font-style: italic;
+  text-align: left;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--off-gray-dark);
+  text-decoration: underline;
+}
 </style>
