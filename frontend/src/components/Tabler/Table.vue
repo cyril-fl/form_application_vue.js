@@ -161,6 +161,10 @@ const computedCompagnies = computed(() => {
       aValue = a[sortKey].split(', ')[0].split(' ').slice(1).join(' ');
       bValue = b[sortKey].split(', ')[0].split(' ').slice(1).join(' ');
 
+    } else if (sortKey === ENUM_TYPE.REVIEW.toLowerCase()) {
+      aValue = Number(a[sortKey]);
+      bValue = Number(b[sortKey]);
+
     } else {
       aValue = a[sortKey];
       bValue = b[sortKey];
@@ -168,6 +172,8 @@ const computedCompagnies = computed(() => {
 
     let comparison = 0;
 
+    console.log(aValue, bValue)
+    console.log(typeof aValue, typeof bValue)
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       comparison = aValue.localeCompare(bValue);
     } else {
