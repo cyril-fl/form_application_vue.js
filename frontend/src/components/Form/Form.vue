@@ -165,7 +165,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <section class="section__form">
+  <section class="section__box section__form">
     <form @submit.prevent="controlData" ref="FORM">
       <div class="form__header">
         <h2 class="form__title">Candidature</h2>

@@ -184,12 +184,11 @@ const orderBy = (type) => {
   ORDER.value = {by: type, click: temp_click}
 }
 
-
 </script>
 
 <template>
   <section class="section__table" ref="TABLE_CONTAINER">
-    <table>
+    <table class="section__box">
       <thead>
         <tr class="table__title">
           <th class="table__origin"><span class="order">Société<OrderIcon :order="ORDER" :th_type="ENUM_TYPE.NAME" @onCLick="orderBy"/></span></th>
@@ -241,7 +240,7 @@ const orderBy = (type) => {
         </tr>
       </tbody>
     </table>
-    <aside class="table__footer">
+    <aside class="section__box table__footer">
       <p colspan="7" class="table__footer__content ">{{ computedCompagnies.length }} candidatures</p>
     </aside>
     <InfoBulle v-if="INFO.state" :date="INFO.date"/>
@@ -254,7 +253,8 @@ const orderBy = (type) => {
 /* TABLE */
 table {
   font-size: 0.875rem;
-  flex-grow: 1; /* La table prend tout l'espace disponible dans la section */
+  width: 100%;
+  flex-grow: 0;
 }
 
 /* TABLE HEADER */
@@ -271,12 +271,12 @@ table {
 
 /* TABLE ROWS */
 .table__rows {
-  height: auto; /* Permet à la ligne de s'ajuster à la hauteur du contenu */
+  height: fit-content; /* Permet à la ligne de s'ajuster à la hauteur du contenu */
 }
 .table__rows > * {
+
   border-top: 1px solid var(--primary); /* Bordure uniforme pour éviter les décalages */
   padding: 0.5rem 0.75rem; /* Ajout de padding pour éviter que le contenu ne touche les bords */
-  height: 100%;
   vertical-align: middle; /* Assure que le contenu reste centré verticalement */
   box-sizing: border-box; /* Inclut la bordure et le padding dans la hauteur/largeur */
 }
@@ -306,18 +306,19 @@ table {
 /* TABLE FOOTER */
 .table__footer {
   font-size: 0.75rem;
-  background: inherit;
+  background-color: var(--primary-faded);
   color: var(--off-white-light);
   position: sticky;
   bottom: 0;
   left: 0;
   width: 100%;
+  height: 100%;
+  max-height: 24px;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
 }
 .table__footer__content{
-  background-color: rgba(var(--primary-rgb), 0.3); /* Ajustez la couleur si nécessaire */
-
-  padding: 0.25rem;
-
 }
 
 /* FIXED CELLS */

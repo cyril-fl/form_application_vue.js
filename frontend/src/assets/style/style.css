@@ -11,6 +11,7 @@
 
     --primary: #71846D;
     --primary-rgb: 113, 132, 109;
+    --primary-faded: #CDD5D1 ;
     --accent: #C8EAC2;
     --accent-rgb: 200, 234, 194;
 
@@ -80,7 +81,12 @@ html, body {
 }
 
 section {
-    /*height: fit-content;*/
+    height: fit-content;
+    border-radius: 0.2rem;
+    overflow: hidden;
+}
+
+.section__box {
     background-color: white;
     box-shadow: 0 1rem 1.75rem 0 rgba(var(--primary-rgb), 0.10);
     border-radius: 0.2rem;
@@ -197,5 +203,7 @@ input[type="search"] {
         grid-row: 1 / span 12;
         display: flex;
         flex-direction: column;
+        justify-content: start;
+        gap: 0.5rem;
     }
 }
