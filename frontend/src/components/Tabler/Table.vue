@@ -16,6 +16,13 @@ const ORDER = ref({
   by: 'DEFAULT',
   click: 0
 })
+const ENUM_TYPE = {
+  NAME : 'COMPANY_NAME',
+  LOCATION : 'COMPANY_LOCATION',
+  APPLICATION : 'APPLICATION_TYPE',
+  REVIEW : 'REVIEW_STATUS',
+  RESPONDED : 'COMPANY_HAS_RESPONDED',
+}
 
 const MOCKUP_EMPTY_DATA = []
 const MOCKUP_DATA = [
@@ -138,8 +145,19 @@ const computedCompagnies = computed(() => {
   const isReverse = ORDER.value.click === 2;
 
   return [...PROPS.compagnies].sort((a, b) => {
-    const aValue = a[sortKey];
-    const bValue = b[sortKey];
+    let aValue;
+    let bValue;
+
+    // Rule by ENUM_TYPE
+    if (sortKey === ENUM_TYPE.LOCATION.toLowerCase()) {
+      // Extraire le nom de la rue (première partie avant la première virgule)
+      aValue = a[sortKey].split(', ')[0].split(' ').slice(1).join(' ');
+      bValue = b[sortKey].split(', ')[0].split(' ').slice(1).join(' ');
+
+    } else {
+      aValue = a[sortKey];
+      bValue = b[sortKey];
+    }
 
     let comparison = 0;
 
@@ -149,7 +167,7 @@ const computedCompagnies = computed(() => {
       comparison = aValue - bValue;
     }
 
-    return isReverse ? comparison : -comparison;
+    return isReverse ? -comparison : comparison;
   });
 });
 
@@ -174,13 +192,13 @@ const orderBy = (type) => {
     <table>
       <thead>
         <tr class="table__title">
-          <th class="table__origin"><span class="order">Société<OrderIcon :order="ORDER" th_type="COMPANY_NAME" @onCLick="orderBy"/></span></th>
-          <th class="table__rows__fixed"><span class="order">Adresse<OrderIcon :order="ORDER" th_type="COMPANY_LOCATION" @onCLick="orderBy" /></span></th>
-          <th class="table__rows__fixed"><span class="order">Candidature<OrderIcon :order="ORDER" th_type="APPLICATION_TYPE" @onCLick="orderBy" /></span></th>
+          <th class="table__origin"><span class="order">Société<OrderIcon :order="ORDER" :th_type="ENUM_TYPE.NAME" @onCLick="orderBy"/></span></th>
+          <th class="table__rows__fixed"><span class="order">Adresse<OrderIcon :order="ORDER" :th_type="ENUM_TYPE.LOCATION" @onCLick="orderBy" /></span></th>
+          <th class="table__rows__fixed"><span class="order">Candidature<OrderIcon :order="ORDER" :th_type="ENUM_TYPE.APPLICATION" @onCLick="orderBy" /></span></th>
           <th class="table__rows__fixed">Complement</th>
           <th class="table__rows__fixed">Commentaire</th>
-          <th class="table__rows__fixed"><span class="order">Note <OrderIcon :order="ORDER" th_type="REVIEW_STATUS" @onCLick="orderBy" /></span></th>
-          <th class="table__rows__fixed"><span class="order">Response <OrderIcon :order="ORDER" th_type="COMPANY_HAS_RESPONDED" @onCLick="orderBy" /></span></th>
+          <th class="table__rows__fixed"><span class="order">Note <OrderIcon :order="ORDER" :th_type="ENUM_TYPE.REVIEW" @onCLick="orderBy" /></span></th>
+          <th class="table__rows__fixed"><span class="order">Response <OrderIcon :order="ORDER" :th_type="ENUM_TYPE.RESPONDED" @onCLick="orderBy" /></span></th>
         </tr>
       </thead>
       <tbody>
@@ -223,17 +241,20 @@ const orderBy = (type) => {
         </tr>
       </tbody>
     </table>
-
+    <aside class="table__footer">
+      <p colspan="7" class="table__footer__content ">{{ computedCompagnies.length }} candidatures</p>
+    </aside>
     <InfoBulle v-if="INFO.state" :date="INFO.date"/>
   </section>
 
 </template>
 
 <style>
+
 /* TABLE */
 table {
-  width: 100%;
   font-size: 0.875rem;
+  flex-grow: 1; /* La table prend tout l'espace disponible dans la section */
 }
 
 /* TABLE HEADER */
@@ -281,6 +302,22 @@ table {
   width: 1rem; /* Taille fixe pour les icônes */
   aspect-ratio: 1/1;
   color: currentColor;
+}
+/* TABLE FOOTER */
+.table__footer {
+  font-size: 0.75rem;
+  background: inherit;
+  color: var(--off-white-light);
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.table__footer__content{
+  background-color: rgba(var(--primary-rgb), 0.3); /* Ajustez la couleur si nécessaire */
+
+  padding: 0.25rem;
+
 }
 
 /* FIXED CELLS */

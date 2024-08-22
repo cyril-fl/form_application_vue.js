@@ -30,6 +30,7 @@
     --off-black-light: #334155;
     --off-black: #0f172a;
     --off-black-dark: #020617;
+    --off-black-dark-rgb: 2, 6, 23;
 }
 
 /* Global CSS Reset */
@@ -79,7 +80,7 @@ html, body {
 }
 
 section {
-    height: fit-content;
+    /*height: fit-content;*/
     background-color: white;
     box-shadow: 0 1rem 1.75rem 0 rgba(var(--primary-rgb), 0.10);
     border-radius: 0.2rem;
@@ -194,7 +195,7 @@ input[type="search"] {
     .section__table {
         grid-column: 6 / span 13;
         grid-row: 1 / span 12;
-        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
-
 }
