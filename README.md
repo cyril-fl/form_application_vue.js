@@ -7,6 +7,8 @@ As part of my final internship at BeCode, I have the opportunity to explore Vue.
 
 ### Features
 - **Form**: Allows users to enter various data about the companies they are applying to, including a formatted address, website, review rating, etc.
+  - The form is validated to ensure that all required fields are filled in.
+  - Notifications appear if the submission fails or succeeds.
 - **Table**: Displays the previously registered data in an organized manner for easy tracking.
   - Checkboxes allow to track if some society has responded yet .
   - Application date display when society's name is hovered.

@@ -2,7 +2,7 @@
 import { define_id } from "@/custom_method.js";
 import Review from "@Form/components/Review.vue";
 import ChoiceList from "@/components/Form/components/ChoiceList.vue";
-import { h } from "vue";
+import { h, computed } from "vue";
 import Address from "@Form/components/Address.vue";
 
 const PROPS = defineProps({
@@ -70,11 +70,16 @@ const renderInput = () => {
       });
   }
 };
+
+const computedLabel = computed(() => {
+  return PROPS.required ? `${PROPS.label} *` : PROPS.label;
+});
+
 </script>
 
 <template>
   <div class="form__field">
-    <label :for="ID" class="form__label">{{ label }}</label>
+    <label :for="ID" class="form__label">{{computedLabel}}</label>
     <component :is="renderInput()"></component>
   </div>
 </template>
