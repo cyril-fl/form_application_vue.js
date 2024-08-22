@@ -9,9 +9,12 @@
     /*--primary: #CFF2C9;*/
     /*--primary-rgb: 207, 242, 201;*/
 
+    --primary-opacity: 0.3;
+
     --primary: #71846D;
     --primary-rgb: 113, 132, 109;
-    --primary-faded: #CDD5D1 ;
+    --primary-faded: rgba(var(--primary-rgb), var(--primary-opacity));
+
     --accent: #C8EAC2;
     --accent-rgb: 200, 234, 194;
 
@@ -83,12 +86,18 @@ html, body {
 section {
     height: fit-content;
     border-radius: 0.2rem;
-    overflow: hidden;
+    background: unset;
 }
 
-.section__box {
+.section__box-md {
     background-color: white;
     box-shadow: 0 1rem 1.75rem 0 rgba(var(--primary-rgb), 0.10);
+    border-radius: 0.2rem;
+}
+
+.section__box-sm {
+    background-color: white;
+    box-shadow: 0 0.5rem 0.75rem 0 rgba(var(--primary-rgb), 0.10);
     border-radius: 0.2rem;
 }
 

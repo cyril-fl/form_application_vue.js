@@ -188,7 +188,7 @@ const orderBy = (type) => {
 
 <template>
   <section class="section__table" ref="TABLE_CONTAINER">
-    <table class="section__box">
+    <table class="section__box-sm">
       <thead>
         <tr class="table__title">
           <th class="table__origin"><span class="order">Société<OrderIcon :order="ORDER" :th_type="ENUM_TYPE.NAME" @onCLick="orderBy"/></span></th>
@@ -240,8 +240,10 @@ const orderBy = (type) => {
         </tr>
       </tbody>
     </table>
-    <aside class="section__box table__footer">
-      <p colspan="7" class="table__footer__content ">{{ computedCompagnies.length }} candidatures</p>
+    <aside class="section__box-md table__footer">
+      <div class="table__footer__background">
+        <p colspan="7" class="table__footer__content ">{{ computedCompagnies.length }} candidatures</p>
+      </div>
     </aside>
     <InfoBulle v-if="INFO.state" :date="INFO.date"/>
   </section>
@@ -255,6 +257,8 @@ table {
   font-size: 0.875rem;
   width: 100%;
   flex-grow: 0;
+  overflow: clip;
+
 }
 
 /* TABLE HEADER */
@@ -305,20 +309,31 @@ table {
 }
 /* TABLE FOOTER */
 .table__footer {
-  font-size: 0.75rem;
-  background-color: var(--primary-faded);
-  color: var(--off-white-light);
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  border-radius: 0.2rem;
   position: sticky;
   bottom: 0;
   left: 0;
+  overflow: hidden;
+  max-height: 2rem;
+
+
+
+}
+.table__footer__background {
+  background: rgba(var(--primary-rgb), 0.3);
   width: 100%;
   height: 100%;
-  max-height: 24px;
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 0 0.5rem;
+  //justify-content: center;
 }
 .table__footer__content{
+  font-size: 0.75rem;
+  color: var(--off-white-light);
 }
 
 /* FIXED CELLS */
