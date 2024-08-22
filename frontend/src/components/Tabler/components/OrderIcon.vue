@@ -37,7 +37,7 @@ const handleClick = () => {
   transform: scale(0.8);
 }
 .order__icons-minus {
-  color: var(--off-gray-dark);
+  color: rgba(var(--accent-rgb), 0.3);
 }
 .order__icons-button:hover {
   color: var(--accent);

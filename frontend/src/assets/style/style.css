@@ -3,24 +3,42 @@
 :root {
     --text: #060d19;
     --background: #f5f8fc;
-    /*--primary: #3f7bcf;*/
-    /*--primary-rgb: 63, 123, 207;*/
-
-    /*--primary: #CFF2C9;*/
-    /*--primary-rgb: 207, 242, 201;*/
-
     --primary-opacity: 0.3;
-
-    --primary: #71846D;
-    --primary-rgb: 113, 132, 109;
     --primary-faded: rgba(var(--primary-rgb), var(--primary-opacity));
 
+    /* RED */
+    --primary: #F56470;
+    --primary-rgb: 245, 182, 187;
+    --primary-dark: #E55C63;
+    --accent: #F5B6BB;
+    --accent-rgb: 245, 182, 187;
+
+    /* PURPLE */
+    /*
+    --primary: #313CA3;
+    --primary-rgb: 62, 77, 207;
+    --primary-dark: #2A2F8E;
+    --accent: #9A92FF;
+    --accent-rgb: 154, 146, 255;
+    */
+
+    /* BLUE*/
+    /*
+    --primary: #3F7BCF;
+    --primary-rgb: 63, 123, 207;
+    --primary-dark: #2E5DA8;
+    --accent: #78B0FF;
+    --accent-rgb: 120, 176, 255;
+    */
+
+    /* GREEN */
+    /*
+    --primary: #ADC98D;
+    --primary-rgb: 173, 201, 141;
+    --primary-dark: #8AA170;
     --accent: #C8EAC2;
     --accent-rgb: 200, 234, 194;
-
-    --secondary: #F56470;
-    --secondary-bis: #F5B6BB;
-    /*--accent: #c1d967;*/
+    */
 
     /* Tailwind slate */
     --off-white-light: #f8fafc;

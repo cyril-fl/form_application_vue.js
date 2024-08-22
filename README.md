@@ -9,7 +9,13 @@ As part of my final internship at BeCode, I have the opportunity to explore Vue.
 - **Form**: Allows users to enter various data about the companies they are applying to, including a formatted address, website, review rating, etc.
 - **Table**: Displays the previously registered data in an organized manner for easy tracking.
   - Checkboxes allow to track if some society has responded yet .
-  - Application date display on society name hover.
+  - Application date display when society's name is hovered.
+  - Sorting by name, address, type of application, rating and response status.
+- **CSS** : Four themes colours are implemented in style.css file: 
+  - Red.
+  - Blue.
+  - Green.
+  - Purple.
 
 ### Technologies
 #### Frontend

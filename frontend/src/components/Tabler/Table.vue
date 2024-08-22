@@ -29,46 +29,53 @@ const MOCKUP_DATA = [
   {
     company_name: 'Google',
     company_location: 'Mountain View, CA',
-    application_type: 'Stage',
+    application_type: 'Annonce',
+    company_website: 'https://www.google.com',
     application_type_optional: 'https://www.google.com',
     review_comment: 'Très bonne expérience',
     review_status: 5,
-    company_has_responded: true
+    company_has_responded: true,
+    application_date: new Date()
   },
   {
     company_name: 'Facebook',
     company_location: 'Menlo Park, CA',
-    application_type: 'Emploi',
-    application_type_optional: 'https://www.facebook.com',
+    application_type: 'Recrutement',
+    company_website: 'https://www.facebook.com',
+    application_type_optional: 'facebook@facebook.com',
     review_comment: 'Expérience mitigée',
     review_status: 3,
-    company_has_responded: false
+    company_has_responded: false,
+    application_date: new Date()
   },
   {
     company_name: 'Amazon',
     company_location: 'Seattle, WA',
-    application_type: 'Emploi',
-    application_type_optional: 'https://www.amazon.com',
+    application_type: 'Spontanée',
+    company_website: 'https://www.amazon.com',
     review_comment: 'Expérience négative',
     review_status: 1,
-    company_has_responded: false
+    company_has_responded: false,
+    application_date: new Date()
   }, {
     company_name: 'Microsoft',
     company_location: 'Redmond, WA',
-    application_type: 'Emploi',
-    application_type_optional: 'https://www.microsoft.com',
+    application_type: 'Spontanée',
+    company_website: 'https://www.microsoft.com',
     review_comment: 'Expérience positive',
     review_status: 4,
-    company_has_responded: true
+    company_has_responded: true,
+    application_date: new Date()
   },
   {
     company_name: 'Apple',
     company_location: 'Cupertino, CA',
-    application_type: 'Emploi',
-    application_type_optional: 'https://www.apple.com',
+    application_type: 'Spontanée',
+    company_website: 'https://www.apple.com',
     review_comment: 'Expérience très positive',
     review_status: 5,
-    company_has_responded: true
+    company_has_responded: true,
+    application_date: new Date()
   }
 ]
 
@@ -243,6 +250,8 @@ const orderBy = (type) => {
     <aside class="section__box-md table__footer">
       <div class="table__footer__background">
         <p colspan="7" class="table__footer__content ">{{ computedCompagnies.length }} candidatures</p>
+<!--        <p colspan="7" class="table__footer__content ">{{ MOCKUP_DATA.length }} candidatures</p>-->
+
       </div>
     </aside>
     <InfoBulle v-if="INFO.state" :date="INFO.date"/>
@@ -318,9 +327,6 @@ table {
   left: 0;
   overflow: hidden;
   max-height: 2rem;
-
-
-
 }
 .table__footer__background {
   background: rgba(var(--primary-rgb), 0.3);
@@ -329,7 +335,6 @@ table {
   display: flex;
   align-items: center;
   padding: 0 0.5rem;
-  //justify-content: center;
 }
 .table__footer__content{
   font-size: 0.75rem;
