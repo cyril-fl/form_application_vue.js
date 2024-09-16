@@ -1,5 +1,5 @@
 <script setup>
-import {ref, defineEmits, watchEffect} from "vue";
+import {ref, watchEffect} from "vue";
 import Input from "@Form/components/Input.vue";
 
 const EMIT = defineEmits(['add_temporary','add_success','add_error']);
@@ -161,6 +161,7 @@ watchEffect(() => {
     }, 1500); // Réinitialiser après 1,5 seconde
   }
 });
+console.log(FORM_FIELDS)
 
 </script>
 
@@ -178,7 +179,6 @@ watchEffect(() => {
             <v-icon name="hi-solid-check-circle" />
           </div>
         </transition>
-
       </div>
 
       <template v-for="field in FORM_FIELDS" :key="field.name">
@@ -220,8 +220,8 @@ watchEffect(() => {
     font-weight: bold;
   }
   .form__notification__Error {
-    background: var(--secondary-bis);
-    color: var(--secondary);
+    background: var(--accent);
+    color: var(--off-white-light);
     border-radius: 0.25rem;
     flex-grow: 1;
     padding: 0.3rem;

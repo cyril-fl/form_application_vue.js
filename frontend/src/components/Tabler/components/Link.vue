@@ -1,5 +1,5 @@
 <script setup>
-import {computed, defineEmits} from 'vue';
+import {computed} from 'vue';
 import { isValidEmail, isValidURL } from "@/custom_method.js";
 
 const PROPS = defineProps({

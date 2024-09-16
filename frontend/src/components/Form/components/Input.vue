@@ -1,8 +1,8 @@
 <script setup>
+import { h, computed } from "vue";
 import { define_id } from "@/custom_method.js";
 import Review from "@Form/components/Review.vue";
-import ChoiceList from "@/components/Form/components/ChoiceList.vue";
-import { h, computed } from "vue";
+import ChoiceList from "@Form/components/ChoiceList.vue";
 import Address from "@Form/components/Address.vue";
 
 const PROPS = defineProps({
